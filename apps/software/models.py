@@ -99,6 +99,7 @@ class Simpatizante(models.Model):
     candidato = models.ForeignKey(Candidato, on_delete=models.CASCADE)
     cedula = models.CharField(max_length=10)
     rol = models.ForeignKey(Rol, on_delete=models.CASCADE)
+    referido_por = models.ForeignKey("self", on_delete=models.SET_NULL, null=True, blank=True)
     primer_nombre = models.CharField(max_length=30)
     segundo_nombre = models.CharField(max_length=30, null=True, blank=True)
     primer_apellido = models.CharField(max_length=30)
@@ -117,7 +118,7 @@ class Simpatizante(models.Model):
     )
 
     def __str__(self):
-        return f"{self.primer_nombre} {self.primer_apellido}"
+        return f"{self.primer_nombre} {self.primer_apellido} {self.cedula}"
 
     class Meta:
         verbose_name = "Simpatizante"
