@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 tipo_campaña_choices = (
     ("Edil", "Edil"),
@@ -6,6 +7,12 @@ tipo_campaña_choices = (
     ("Alcaldia", "Alcaldia"),
     ("Asamblea", "Asamblea"),
     ("Gobernación", "Gobernación"),
+)
+estado_choices = (
+    ("Apoya", "Apoya"),
+    ("No Apoya", "No Apoya"),
+    ("Indeciso", "Indeciso"),
+    ("No contactado", "No contactado"),
 )
 
 
@@ -98,8 +105,15 @@ class Simpatizante(models.Model):
     fecha_registro = models.DateTimeField(auto_now_add=True)
     candidato = models.ForeignKey(Candidato, on_delete=models.CASCADE)
     cedula = models.CharField(max_length=10)
+    estado = models.CharField(max_length=50, choices=estado_choices, default="No contactado")
     rol = models.ForeignKey(Rol, on_delete=models.CASCADE)
-    referido_por = models.ForeignKey("self", on_delete=models.SET_NULL, null=True, blank=True)
+    referido_por = models.ForeignKey(
+        "self",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="simpatizante_referido_por",
+    )
     primer_nombre = models.CharField(max_length=30)
     segundo_nombre = models.CharField(max_length=30, null=True, blank=True)
     primer_apellido = models.CharField(max_length=30)
@@ -116,6 +130,13 @@ class Simpatizante(models.Model):
     poblacion = models.ForeignKey(
         EnfoquePoblacional, on_delete=models.SET_NULL, null=True, blank=True
     )
+    guardado_por = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="simpatizante_guardado_por",
+    )
 
     def __str__(self):
         return f"{self.primer_nombre} {self.primer_apellido} {self.cedula}"
@@ -123,7 +144,3 @@ class Simpatizante(models.Model):
     class Meta:
         verbose_name = "Simpatizante"
         verbose_name_plural = "Simpatizantes"
-        unique_together = (
-            "cedula",
-            "candidato",
-        )

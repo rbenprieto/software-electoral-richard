@@ -10,6 +10,8 @@ from .models import (
     Simpatizante,
 )
 
+from .actions import *
+
 @admin.register(Departamento)
 class DepartamentoAdmin(ImportExportModelAdmin):
     list_display = (
@@ -48,12 +50,29 @@ class CandidatoAdmin(ImportExportModelAdmin):
 
 @admin.register(Rol)
 class RolAdmin(ImportExportModelAdmin):
-    list_display = ("id", "nombre",)
+    list_display = (
+        "id",
+        "nombre",
+    )
     list_display_links = list_display
 
 
 @admin.register(Simpatizante)
 class SimpatizanteAdmin(ImportExportModelAdmin):
-    list_display = ("id", "cedula", "primer_nombre", "primer_apellido", "rol", "candidato", "telefono_principal")
+    list_display = (
+        "id",
+        "cedula",
+        "primer_nombre",
+        "primer_apellido",
+        "rol",
+        "candidato",
+        "telefono_principal",
+    )
     list_display_links = list_display
+    exclude = ("guardado_por",)
+    actions = [exportar_simpatizantes]
     list_per_page = 30
+
+    def save_model(self, request, obj, form, change):
+        obj.guardado_por = request.user
+        super().save_model(request, obj, form, change)

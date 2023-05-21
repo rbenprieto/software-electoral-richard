@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # APP
     "apps.software.apps.SoftwareConfig",
-    'import_export',
+    "import_export",
 ]
 
 MIDDLEWARE = [
@@ -115,5 +115,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 JAZZMIN_SETTINGS = {
     "welcome_sign": "Bienvenido",
     "copyright": "Richard Mancera",
-    "site_brand": "Software Electoral"
+    "site_brand": "Software Electoral",
 }
