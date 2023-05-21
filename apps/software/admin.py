@@ -69,9 +69,11 @@ class SimpatizanteAdmin(ImportExportModelAdmin):
         "telefono_principal",
     )
     list_display_links = list_display
+    list_filter = ("rol", "estado", "referido_por", "municipio", "poblacion", "guardado_por")
     exclude = ("guardado_por",)
     actions = [exportar_simpatizantes]
     list_per_page = 30
+    search_fields = ("cedula", "telefono_principal")
 
     def save_model(self, request, obj, form, change):
         obj.guardado_por = request.user
