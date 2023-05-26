@@ -104,7 +104,7 @@ class Simpatizante(models.Model):
     id = models.AutoField(primary_key=True, editable=False, unique=True)
     fecha_registro = models.DateTimeField(auto_now_add=True)
     candidato = models.ForeignKey(Candidato, on_delete=models.CASCADE)
-    cedula = models.CharField(max_length=10)
+    cedula = models.CharField(max_length=10, null=True, blank=True)
     estado = models.CharField(max_length=50, choices=estado_choices, default="No contactado")
     rol = models.ForeignKey(Rol, on_delete=models.CASCADE)
     referido_por = models.ForeignKey(
