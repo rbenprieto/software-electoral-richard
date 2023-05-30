@@ -41,6 +41,19 @@ class Municipio(models.Model):
         verbose_name_plural = "Municipios"
 
 
+class BarrioComuna(models.Model):
+    id = models.AutoField(primary_key=True, editable=False, unique=True)
+    nombre = models.CharField(max_length=50)
+    municipio = models.ForeignKey(Municipio, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.nombre
+
+    class Meta:
+        verbose_name = "Barrio/Comuna"
+        verbose_name_plural = "Barrio/Comunas"
+
+
 class PuestoVotacion(models.Model):
     id = models.AutoField(primary_key=True, editable=False, unique=True)
     nombre = models.CharField(max_length=255)
@@ -120,7 +133,7 @@ class Simpatizante(models.Model):
     segundo_apellido = models.CharField(max_length=30, null=True, blank=True)
     departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE)
     municipio = models.ForeignKey(Municipio, on_delete=models.CASCADE)
-    barrio_comuna = models.CharField(max_length=255, null=True, blank=True)
+    barrio_comuna = models.ForeignKey(BarrioComuna, on_delete=models.CASCADE)
     direccion = models.CharField(max_length=255, null=True, blank=True)
     telefono_principal = models.CharField(max_length=10)
     fecha_nacimiento = models.DateField(null=True, blank=True)

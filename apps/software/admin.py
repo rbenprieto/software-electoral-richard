@@ -3,6 +3,7 @@ from import_export.admin import ImportExportModelAdmin
 from .models import (
     Departamento,
     Municipio,
+    BarrioComuna,
     PuestoVotacion,
     EnfoquePoblacional,
     Candidato,
@@ -24,6 +25,13 @@ class DepartamentoAdmin(ImportExportModelAdmin):
 @admin.register(Municipio)
 class MunicipioAdmin(ImportExportModelAdmin):
     list_display = ("id", "nombre", "departamento")
+    list_display_links = list_display
+
+
+@admin.register(BarrioComuna)
+class BarrioComunaAdmin(ImportExportModelAdmin):
+    model = BarrioComuna
+    list_display = ("id", "nombre", "municipio",)
     list_display_links = list_display
 
 
